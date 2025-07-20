@@ -17,8 +17,10 @@ def get_locale(name: str) -> "Locale":
     locale_cls = _locale_map.get(language_tag)
 
     if locale_cls is None:
-        message = f"unsupported language: {language_tag}"
-        raise ValueError(message)
+        # Fallback to English locale if no specific locale is found
+        locale_cls = _locale_map.get("en")
+        if locale_cls is None:
+            raise LookupError(f"No locale found for language tag: {language_tag}")
 
     return locale_cls()
 
@@ -197,3 +199,48 @@ class BengaliLocale(Locale):
     )
     notation = "হিজরি"
     gregorian_notation = "খ্রিস্টাব্দ"
+
+
+class TurkishLocale(Locale):
+    """A Turkish Locale object represents Turkish locale-specific data."""
+
+    language_tag = "tr"
+    month_names = (
+        "Muharrem",
+        "Safer",
+        "Rebiülevvel",
+        "Rebiülahir",
+        "Cemaziyelevvel",
+        "Cemaziyelahir",
+        "Recep",
+        "Şaban",
+        "Ramazan",
+        "Şevval",
+        "Zilkade",
+        "Zilhicce",
+    )
+    gregorian_month_names = (
+        "Ocak",
+        "Şubat",
+        "Mart",
+        "Nisan",
+        "Mayıs",
+        "Haziran",
+        "Temmuz",
+        "Ağustos",
+        "Eylül",
+        "Ekim",
+        "Kasım",
+        "Aralık",
+    )
+    day_names = (
+        "Pazartesi",
+        "Salı",
+        "Çarşamba",
+        "Perşembe",
+        "Cuma",
+        "Cumartesi",
+        "Pazar",
+    )
+    notation = "Hicri"
+    gregorian_notation = "Miladi"
